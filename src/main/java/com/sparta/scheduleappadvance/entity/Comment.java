@@ -27,4 +27,10 @@ public class Comment extends CommonEntity {
         this.content = requestDto.getContent();
         this.schedule = schedule;
     }
+
+    public Comment update(CommentRequestDto requestDto) {
+        this.writeUser = requestDto.getWriteUser();
+        this.content = requestDto.getContent();
+        return this;
+    }
 }

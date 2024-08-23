@@ -25,10 +25,6 @@ public class ScheduleService {
         return scheduleResponseDto;
     }
 
-    public Schedule getSchedule(Long id) {
-        return scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 스케줄이 존재하지 않습니다."));
-    }
-
     @Transactional
     public ScheduleResponseDto updateSchedule(ScheduleRequestDto requestDto, Long id) {
         Schedule schedule = getSchedule(id);
@@ -38,5 +34,9 @@ public class ScheduleService {
         ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(updatedSchedule);
 
         return scheduleResponseDto;
+    }
+
+    public Schedule getSchedule(Long id) {
+        return scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 스케줄이 존재하지 않습니다."));
     }
 }

@@ -1,12 +1,13 @@
 package com.sparta.scheduleappadvance.entity;
 
 import com.sparta.scheduleappadvance.dto.ScheduleRequestDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -24,6 +25,10 @@ public class Schedule extends CommonEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @OneToMany(mappedBy = "schedule")
+    private List<Comment> commentList;
+
+
     public Schedule(ScheduleRequestDto requestDto) {
         this.writeUser = requestDto.getWriteUser();
         this.scheduleName = requestDto.getScheduleName();
@@ -36,5 +41,10 @@ public class Schedule extends CommonEntity {
         this.content = requestDto.getContent();
 
         return this;
+    }
+
+    public void addCommentList(Comment comment) {
+        this.commentList.add(comment);
+        comment.setSchedule(this);
     }
 }
