@@ -1,11 +1,10 @@
 package com.sparta.scheduleappadvance.dto;
 
-import com.sparta.scheduleappadvance.entity.CommonEntity;
 import com.sparta.scheduleappadvance.entity.Schedule;
 import lombok.Getter;
 
 @Getter
-public class ScheduleResponseDto extends CommonEntity {
+public class ScheduleResponseDto extends CommonDto {
     private String writeUser;
     private String scheduleName;
     private String content;
