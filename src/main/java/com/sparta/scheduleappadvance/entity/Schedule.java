@@ -1,16 +1,18 @@
 package com.sparta.scheduleappadvance.entity;
 
+import com.sparta.scheduleappadvance.dto.ScheduleRequestDto;
+import com.sparta.scheduleappadvance.dto.ScheduleResponseDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "schedule")
 public class Schedule extends CommonEntity {
     @Column(name = "writeUser", nullable = false)
@@ -22,4 +24,17 @@ public class Schedule extends CommonEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
+    public Schedule(ScheduleRequestDto requestDto) {
+        this.writeUser = requestDto.getWriteUser();
+        this.scheduleName = requestDto.getScheduleName();
+        this.content = requestDto.getContent();
+    }
+
+    public Schedule update(ScheduleRequestDto requestDto) {
+        this.writeUser = requestDto.getWriteUser();
+        this.scheduleName = requestDto.getScheduleName();
+        this.content = requestDto.getContent();
+
+        return this;
+    }
 }
