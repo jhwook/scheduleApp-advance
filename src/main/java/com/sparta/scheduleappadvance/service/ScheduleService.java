@@ -56,8 +56,7 @@ public class ScheduleService {
 
     @Transactional
     public void deleteSchedule(Long id) {
-        Schedule schedule = scheduleRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("해당 스케줄은 존재하지 않습니다."));
+        Schedule schedule = getSchedule(id);
         scheduleRepository.delete(schedule);
     }
 }

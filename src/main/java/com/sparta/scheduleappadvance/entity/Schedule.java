@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,18 +14,18 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "schedule")
 public class Schedule extends CommonEntity {
-    @Column(name = "writeUser", nullable = false)
-    private String writeUser;
-
     @Column(name = "scheduleName", nullable = false)
     private String scheduleName;
 
     @Column(name = "content", nullable = false)
     private String content;
 
+    @Column(name = "writeUser", nullable = false)
+    private String writeUser;
+
+
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Comment> commentList;
-
 
     public Schedule(ScheduleRequestDto requestDto) {
         this.writeUser = requestDto.getWriteUser();
