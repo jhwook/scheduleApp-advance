@@ -25,7 +25,7 @@ public class Schedule extends CommonEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Comment> commentList;
 
 

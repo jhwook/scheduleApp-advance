@@ -53,4 +53,11 @@ public class ScheduleService {
         return scheduleRepository.findAllByOrderByUpdatedAtDesc(pageable)
                 .stream().map(ScheduleResponseDto::new).collect(Collectors.toList());
     }
+
+    @Transactional
+    public void deleteSchedule(Long id) {
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("해당 스케줄은 존재하지 않습니다."));
+        scheduleRepository.delete(schedule);
+    }
 }

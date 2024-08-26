@@ -5,6 +5,7 @@ import com.sparta.scheduleappadvance.dto.ScheduleResponseDto;
 import com.sparta.scheduleappadvance.entity.Schedule;
 import com.sparta.scheduleappadvance.service.ScheduleService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,17 +21,23 @@ public class ScheduleController {
     }
 
     @PostMapping("/create")
-    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto requestDto) {
-        return scheduleService.createSchedule(requestDto);
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto requestDto) {
+        return ResponseEntity.ok(scheduleService.createSchedule(requestDto));
     }
     @GetMapping("/{id}")
-    public Schedule getSchedule(@PathVariable Long id) {
-        return scheduleService.getSchedule(id);
+    public ResponseEntity<Schedule> getSchedule(@PathVariable Long id) {
+        return ResponseEntity.ok(scheduleService.getSchedule(id));
     }
 
     @PutMapping("/update/{id}")
-    public ScheduleResponseDto updateSchedule(@RequestBody ScheduleRequestDto requestDto, @PathVariable Long id) {
-        return scheduleService.updateSchedule(requestDto, id);
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@RequestBody ScheduleRequestDto requestDto, @PathVariable Long id) {
+        return ResponseEntity.ok(scheduleService.updateSchedule(requestDto, id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteSchedule(@PathVariable Long id) {
+        scheduleService.deleteSchedule(id);
+        return ResponseEntity.ok("Successfully deleted");
     }
 
     @GetMapping("/pagination")
