@@ -4,7 +4,10 @@ import com.sparta.scheduleappadvance.dto.ScheduleRequestDto;
 import com.sparta.scheduleappadvance.dto.ScheduleResponseDto;
 import com.sparta.scheduleappadvance.entity.Schedule;
 import com.sparta.scheduleappadvance.service.ScheduleService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("schedules")
@@ -28,5 +31,10 @@ public class ScheduleController {
     @PutMapping("/update/{id}")
     public ScheduleResponseDto updateSchedule(@RequestBody ScheduleRequestDto requestDto, @PathVariable Long id) {
         return scheduleService.updateSchedule(requestDto, id);
+    }
+
+    @GetMapping("/pagination")
+    public List<ScheduleResponseDto> getSchedules(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return scheduleService.getPaginatedSchedules(page, size);
     }
 }
