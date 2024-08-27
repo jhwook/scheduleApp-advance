@@ -28,6 +28,9 @@ public class Schedule extends CommonEntity {
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Comment> commentList;
 
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
+    private List<ScheduleAddedUser> scheduleAddedUsers;
+
     public Schedule(ScheduleRequestDto requestDto, User user) {
         this.writeUser = user;
         this.scheduleName = requestDto.getScheduleName();

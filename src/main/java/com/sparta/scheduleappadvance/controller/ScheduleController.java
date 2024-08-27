@@ -2,6 +2,7 @@ package com.sparta.scheduleappadvance.controller;
 
 import com.sparta.scheduleappadvance.dto.ScheduleRequestDto;
 import com.sparta.scheduleappadvance.dto.ScheduleResponseDto;
+import com.sparta.scheduleappadvance.dto.UserRequestDto;
 import com.sparta.scheduleappadvance.entity.Schedule;
 import com.sparta.scheduleappadvance.service.ScheduleService;
 import org.springframework.data.domain.Page;
@@ -41,7 +42,12 @@ public class ScheduleController {
     }
 
     @GetMapping("/pagination")
-    public List<ScheduleResponseDto> getSchedules(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        return scheduleService.getPaginatedSchedules(page, size);
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedules(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(scheduleService.getPaginatedSchedules(page, size));
+    }
+
+    @PostMapping("/{scheduleId}/add/user")
+    public ResponseEntity<String> addUserOnSchedule(@RequestBody ScheduleRequestDto requestDto, @PathVariable Long scheduleId) {
+        return ResponseEntity.ok(scheduleService.addUserOnSchedule(requestDto.getUserIdList(), scheduleId));
     }
 }

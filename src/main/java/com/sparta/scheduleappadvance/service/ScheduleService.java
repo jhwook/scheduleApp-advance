@@ -2,8 +2,11 @@ package com.sparta.scheduleappadvance.service;
 
 import com.sparta.scheduleappadvance.dto.ScheduleRequestDto;
 import com.sparta.scheduleappadvance.dto.ScheduleResponseDto;
+import com.sparta.scheduleappadvance.dto.UserRequestDto;
 import com.sparta.scheduleappadvance.entity.Schedule;
+import com.sparta.scheduleappadvance.entity.ScheduleAddedUser;
 import com.sparta.scheduleappadvance.entity.User;
+import com.sparta.scheduleappadvance.repository.ScheduleAddedUserRepository;
 import com.sparta.scheduleappadvance.repository.ScheduleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,10 +22,12 @@ import java.util.stream.Collectors;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final UserService userService;
+    private final ScheduleAddedUserRepository scheduleAddedUserRepository;
 
-    public ScheduleService(ScheduleRepository scheduleRepository, UserService userService) {
+    public ScheduleService(ScheduleRepository scheduleRepository, UserService userService, ScheduleAddedUserRepository scheduleAddedUserRepository) {
         this.scheduleRepository = scheduleRepository;
         this.userService = userService;
+        this.scheduleAddedUserRepository = scheduleAddedUserRepository;
     }
 
     public ScheduleResponseDto createSchedule(ScheduleRequestDto requestDto) {
@@ -63,5 +68,17 @@ public class ScheduleService {
     public void deleteSchedule(Long id) {
         Schedule schedule = getSchedule(id);
         scheduleRepository.delete(schedule);
+    }
+
+    public String addUserOnSchedule(List<Long> userIdList, Long scheduleId) {
+        Schedule schedule = getSchedule(scheduleId);
+
+        for(Long userId : userIdList) {
+            User user = userService.findUser(userId);
+            ScheduleAddedUser scheduleAddedUser = new ScheduleAddedUser(schedule, user);
+            scheduleAddedUserRepository.save(scheduleAddedUser);
+        }
+
+        return "Successfully saved";
     }
 }

@@ -1,12 +1,12 @@
 package com.sparta.scheduleappadvance.entity;
 
 import com.sparta.scheduleappadvance.dto.UserRequestDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,6 +19,9 @@ public class User extends CommonEntity {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ScheduleAddedUser> scheduleAddedUsers;
 
     public User(UserRequestDto userRequestDto) {
         this.username = userRequestDto.getUsername();
