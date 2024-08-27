@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class User extends CommonEntity {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<ScheduleAddedUser> scheduleAddedUsers;
+    private List<ScheduleAddedUser> scheduleAddedUsers = new ArrayList<>();
 
     public User(UserRequestDto userRequestDto) {
         this.username = userRequestDto.getUsername();

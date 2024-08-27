@@ -1,5 +1,6 @@
 package com.sparta.scheduleappadvance.service;
 
+import com.sparta.scheduleappadvance.dto.AllScheduleResponseDto;
 import com.sparta.scheduleappadvance.dto.ScheduleRequestDto;
 import com.sparta.scheduleappadvance.dto.ScheduleResponseDto;
 import com.sparta.scheduleappadvance.dto.UserRequestDto;
@@ -57,11 +58,16 @@ public class ScheduleService {
         return scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 스케줄이 존재하지 않습니다."));
     }
 
-    public List<ScheduleResponseDto> getPaginatedSchedules(int page, int size) {
+    public ScheduleResponseDto findSchedule(Long id) {
+        Schedule schedule = getSchedule(id);
+        return new ScheduleResponseDto(schedule);
+    }
+
+    public List<AllScheduleResponseDto> getPaginatedSchedules(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
         return scheduleRepository.findAllByOrderByUpdatedAtDesc(pageable)
-                .stream().map(ScheduleResponseDto::new).collect(Collectors.toList());
+                .stream().map(AllScheduleResponseDto::new).collect(Collectors.toList());
     }
 
     @Transactional

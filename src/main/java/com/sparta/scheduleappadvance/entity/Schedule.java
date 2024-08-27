@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,12 +26,11 @@ public class Schedule extends CommonEntity {
     @JoinColumn(name = "write_user_id", nullable = false)
     private User writeUser;
 
-
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Comment> commentList;
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
-    private List<ScheduleAddedUser> scheduleAddedUsers;
+    private List<ScheduleAddedUser> scheduleAddedUsers = new ArrayList<>();
 
     public Schedule(ScheduleRequestDto requestDto, User user) {
         this.writeUser = user;

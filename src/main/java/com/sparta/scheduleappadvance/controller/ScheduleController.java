@@ -1,5 +1,6 @@
 package com.sparta.scheduleappadvance.controller;
 
+import com.sparta.scheduleappadvance.dto.AllScheduleResponseDto;
 import com.sparta.scheduleappadvance.dto.ScheduleRequestDto;
 import com.sparta.scheduleappadvance.dto.ScheduleResponseDto;
 import com.sparta.scheduleappadvance.dto.UserRequestDto;
@@ -26,8 +27,8 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleService.createSchedule(requestDto));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Schedule> getSchedule(@PathVariable Long id) {
-        return ResponseEntity.ok(scheduleService.getSchedule(id));
+    public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long id) {
+        return ResponseEntity.ok(scheduleService.findSchedule(id));
     }
 
     @PutMapping("/update/{id}")
@@ -42,7 +43,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/pagination")
-    public ResponseEntity<List<ScheduleResponseDto>> getSchedules(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<List<AllScheduleResponseDto>> getSchedules(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(scheduleService.getPaginatedSchedules(page, size));
     }
 
