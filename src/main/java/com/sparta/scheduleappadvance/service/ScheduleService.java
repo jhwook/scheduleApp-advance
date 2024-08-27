@@ -3,6 +3,7 @@ package com.sparta.scheduleappadvance.service;
 import com.sparta.scheduleappadvance.dto.ScheduleRequestDto;
 import com.sparta.scheduleappadvance.dto.ScheduleResponseDto;
 import com.sparta.scheduleappadvance.entity.Schedule;
+import com.sparta.scheduleappadvance.entity.User;
 import com.sparta.scheduleappadvance.repository.ScheduleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,13 +18,16 @@ import java.util.stream.Collectors;
 @Service
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final UserService userService;
 
-    public ScheduleService(ScheduleRepository scheduleRepository) {
+    public ScheduleService(ScheduleRepository scheduleRepository, UserService userService) {
         this.scheduleRepository = scheduleRepository;
+        this.userService = userService;
     }
 
     public ScheduleResponseDto createSchedule(ScheduleRequestDto requestDto) {
-        Schedule schedule = new Schedule(requestDto);
+        User user = userService.findUser(requestDto.getWriteUserId());
+        Schedule schedule = new Schedule(requestDto, user);
 
         Schedule saveSchedule =  scheduleRepository.save(schedule);
 
@@ -34,9 +38,10 @@ public class ScheduleService {
 
     @Transactional
     public ScheduleResponseDto updateSchedule(ScheduleRequestDto requestDto, Long id) {
+        User user = userService.findUser(requestDto.getWriteUserId());
         Schedule schedule = getSchedule(id);
 
-        Schedule updatedSchedule = schedule.update(requestDto);
+        Schedule updatedSchedule = schedule.update(requestDto, user);
 
         ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(updatedSchedule);
 

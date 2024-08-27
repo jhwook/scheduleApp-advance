@@ -12,24 +12,24 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "comment")
 public class Comment extends CommonEntity {
-    @Column(name = "writeUser", nullable = false)
-    private String writeUser;
-
     @Column(name = "content", nullable = false)
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "write_user_id")
+    private User writeUser;
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    public Comment(CommentRequestDto requestDto, Schedule schedule) {
-        this.writeUser = requestDto.getWriteUser();
+    public Comment(CommentRequestDto requestDto, Schedule schedule, User user) {
+        this.writeUser = user;
         this.content = requestDto.getContent();
         this.schedule = schedule;
     }
 
     public Comment update(CommentRequestDto requestDto) {
-        this.writeUser = requestDto.getWriteUser();
         this.content = requestDto.getContent();
         return this;
     }

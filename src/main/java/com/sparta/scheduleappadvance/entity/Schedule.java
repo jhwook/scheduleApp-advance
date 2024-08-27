@@ -20,21 +20,22 @@ public class Schedule extends CommonEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "writeUser", nullable = false)
-    private String writeUser;
+    @ManyToOne
+    @JoinColumn(name = "write_user_id", nullable = false)
+    private User writeUser;
 
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Comment> commentList;
 
-    public Schedule(ScheduleRequestDto requestDto) {
-        this.writeUser = requestDto.getWriteUser();
+    public Schedule(ScheduleRequestDto requestDto, User user) {
+        this.writeUser = user;
         this.scheduleName = requestDto.getScheduleName();
         this.content = requestDto.getContent();
     }
 
-    public Schedule update(ScheduleRequestDto requestDto) {
-        this.writeUser = requestDto.getWriteUser();
+    public Schedule update(ScheduleRequestDto requestDto, User user) {
+        this.writeUser = user;
         this.scheduleName = requestDto.getScheduleName();
         this.content = requestDto.getContent();
 

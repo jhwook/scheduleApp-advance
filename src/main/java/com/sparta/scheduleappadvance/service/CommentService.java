@@ -4,6 +4,7 @@ import com.sparta.scheduleappadvance.dto.CommentRequestDto;
 import com.sparta.scheduleappadvance.dto.CommentResponseDto;
 import com.sparta.scheduleappadvance.entity.Comment;
 import com.sparta.scheduleappadvance.entity.Schedule;
+import com.sparta.scheduleappadvance.entity.User;
 import com.sparta.scheduleappadvance.repository.CommentRepository;
 import com.sparta.scheduleappadvance.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,20 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final ScheduleService scheduleService;
+    private final UserService userService;
 
-    public CommentService(CommentRepository commentRepository, ScheduleService scheduleService) {
+    public CommentService(CommentRepository commentRepository, ScheduleService scheduleService, UserService userService) {
         this.commentRepository = commentRepository;
         this.scheduleService = scheduleService;
+        this.userService = userService;
     }
 
     public CommentResponseDto createComment(Long scheduleId, CommentRequestDto requestDto) {
+        User user = userService.findUser(requestDto.getWriteUserId());
+
         Schedule schedule = scheduleService.getSchedule(scheduleId);
 
-        Comment comment = new Comment(requestDto, schedule);
+        Comment comment = new Comment(requestDto, schedule, user);
 
         commentRepository.save(comment);
 
