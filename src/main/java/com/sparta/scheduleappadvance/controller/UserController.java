@@ -2,7 +2,6 @@ package com.sparta.scheduleappadvance.controller;
 
 import com.sparta.scheduleappadvance.dto.UserRequestDto;
 import com.sparta.scheduleappadvance.dto.UserResponseDto;
-import com.sparta.scheduleappadvance.entity.User;
 import com.sparta.scheduleappadvance.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
